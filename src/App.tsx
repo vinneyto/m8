@@ -17,7 +17,7 @@ function decodeBase64(b64: string): string {
 }
 
 function encodeBase64(str: string): string {
-  return encodeURIComponent(btoa(unescape(encodeURIComponent(str))));
+  return btoa(unescape(encodeURIComponent(str)));
 }
 
 // @ts-expect-error
@@ -25,7 +25,7 @@ window.encodeBase64 = encodeBase64;
 
 // ---------- Букет -----------
 const Bouquet = () => {
-  const glb = useGLTF("/models/bouquet.glb") as any;
+  const glb = useGLTF("/m8/models/bouquet.glb") as any;
   return <primitive object={glb.scene} scale={[1, 1, 1]} />;
 };
 
@@ -135,7 +135,7 @@ function Card({ text }: CardProps) {
         {/* Текст (добавляем maxWidth, overflowWrap и т.д.) */}
         <AText
           ref={textRef}
-          font="/fonts/Caveat-VariableFont_wght.ttf"
+          font="/m8/fonts/Caveat-VariableFont_wght.ttf"
           position={[0, 0.05, 0.001]}
           fontSize={0.01} // ещё поменьше
           color="darkred"
@@ -179,10 +179,10 @@ function Scene({ text }: { text: string }) {
 export default function App() {
   // Считываем ?text=base64
   const searchParams = new URLSearchParams(window.location.search);
-  const b64 = searchParams.get("text") || "";
+  const b64 =
+    searchParams.get("text") ||
+    encodeBase64("Милые девушки, поздравляю с 8-м марта!");
   const decoded = decodeBase64(b64);
-
-  console.log("Decoded text:", decoded);
 
   return (
     <Canvas
