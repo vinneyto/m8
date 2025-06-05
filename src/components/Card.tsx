@@ -6,7 +6,7 @@ import { Matrix4, Vector3, Quaternion, Mesh, DoubleSide, Euler } from "three";
 
 const INITIAL_POS = [0, 0.35, 0];
 const INITIAL_QUAT = new Quaternion().setFromEuler(
-  new Euler(-0.2, 0.5, 0, "XYZ")
+  new Euler(-0.2, 0.5, 0, "XYZ"),
 );
 const INIT_ROT = [
   INITIAL_QUAT.x,
@@ -35,7 +35,7 @@ export function Card({ text }: CardProps) {
     if (open) {
       const matrix = new Matrix4().multiplyMatrices(
         camera.matrixWorld,
-        new Matrix4().makeTranslation(0, 0, -0.25)
+        new Matrix4().makeTranslation(0, 0, -0.25),
       );
       const position = new Vector3();
       const quaternion = new Quaternion();
