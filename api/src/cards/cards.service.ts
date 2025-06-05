@@ -1,5 +1,9 @@
-import { Injectable, BadRequestException, NotFoundException } from '@nestjs/common';
-import Database from 'bun:sqlite';
+import {
+  Injectable,
+  BadRequestException,
+  NotFoundException,
+} from '@nestjs/common';
+import { Database } from 'bun:sqlite';
 import { randomUUID } from 'crypto';
 
 export interface Card {
@@ -22,7 +26,7 @@ export class CardsService {
 
   create(text: string): Card {
     const countStmt = this.db.query(
-      "SELECT COUNT(*) as count FROM cards WHERE strftime('%Y-%m', created_at) = strftime('%Y-%m', 'now')"
+      "SELECT COUNT(*) as count FROM cards WHERE strftime('%Y-%m', created_at) = strftime('%Y-%m', 'now')",
     );
     const count = (countStmt.get() as { count: number }).count;
     if (count >= 1000) {
@@ -34,7 +38,9 @@ export class CardsService {
   }
 
   findOne(id: string): Card {
-    const row = this.db.query('SELECT id, text FROM cards WHERE id = ?').get(id);
+    const row = this.db
+      .query('SELECT id, text FROM cards WHERE id = ?')
+      .get(id);
     if (!row) {
       throw new NotFoundException('Card not found');
     }

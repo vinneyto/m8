@@ -7,16 +7,15 @@
   "license": "UNLICENSED",
   "scripts": {
     "build": "bun x nest build",
-    "start": "bun run dist/main.js",
-    "start:dev": "bun x nest start --watch",
-    "start:prod": "bun run dist/main.js",
+    "start": "bun --bun run dist/main.js",
+    "start:dev": "bun --bun x nest start --watch",
+    "start:prod": "bun --bun run dist/main.js",
     "lint": "eslint \"src/**/*.ts\" --fix"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.1",
     "@nestjs/core": "^11.0.1",
     "@nestjs/platform-express": "^11.0.1",
-    "bun-types": "^1.2.15",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1"
   },
