@@ -7,3 +7,9 @@
 ```sh
 bun run dev
 ```
+
+## Как запустить бэкенд
+
+```sh
+bun run server
+```
