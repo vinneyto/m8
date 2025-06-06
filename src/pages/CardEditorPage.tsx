@@ -1,12 +1,16 @@
 import { CardEditor } from "../components/CardEditor";
-import { Row, Col } from "antd";
+import { Typography } from "antd";
+import styles from "./CardEditorPage.module.css";
 
 export default function CardEditorPage() {
   return (
-    <Row justify="center" align="middle" style={{ height: "100%" }}>
-      <Col>
+    <div className={styles.container}>
+      <Typography.Title level={2} className={styles.title}>
+        Поздравляем!
+      </Typography.Title>
+      <div className={styles.form}>
         <CardEditor />
-      </Col>
-    </Row>
+      </div>
+    </div>
   );
 }
