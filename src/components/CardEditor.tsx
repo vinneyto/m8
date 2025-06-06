@@ -1,6 +1,5 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { Button, Input, Space } from "antd";
-import { encodeBase64 } from "../util";
 import { Link } from "react-router-dom";
 
 export function CardEditor() {
@@ -8,11 +7,11 @@ export function CardEditor() {
   const [created, setCreated] = useState(false);
   const [cardId, setCardId] = useState("");
 
-  const handleCreate = () => {
-    const id = encodeBase64(text);
+  const handleCreate = useCallback(() => {
+    const id = crypto.randomUUID();
     setCardId(id);
     setCreated(true);
-  };
+  }, []);
 
   const url =
     typeof window === "undefined"
