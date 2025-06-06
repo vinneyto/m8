@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import CardEditorPage from "./pages/CardEditorPage";
-import CardScenePage from "./pages/CardScenePage";
+import CardEditorPage from "./pages/CardEditorPage/CardEditorPage";
+import CardScenePage from "./pages/CardScenePage/CardScenePage";
 
 export default function App() {
   return (
