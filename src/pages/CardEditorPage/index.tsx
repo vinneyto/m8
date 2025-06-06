@@ -1,4 +1,4 @@
-import { CardEditor } from "../components/CardEditor";
+import { CardEditor } from "../../components/CardEditor";
 import { Typography } from "antd";
 import styles from "./CardEditorPage.module.css";
 

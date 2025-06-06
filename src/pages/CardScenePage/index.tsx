@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
-import { CardScene } from "../components/CardScene";
-import { decodeBase64, encodeBase64 } from "../util";
+import { CardScene } from "../../components/CardScene";
+import { decodeBase64, encodeBase64 } from "../../util";
 import styles from "./CardScenePage.module.css";
 
 export default function CardScenePage() {

@@ -4,6 +4,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  background: linear-gradient(135deg, #fff0f6, #e6f7ff);
 }
 
 .title {
@@ -13,7 +14,7 @@
 }
 
 .form {
-  width: 400px;
+  width: 500px;
   padding: 24px;
   background-color: #fff0f6;
   border-radius: 8px;
