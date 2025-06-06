@@ -17,7 +17,7 @@ export function CardEditor() {
   const url =
     typeof window === "undefined"
       ? ""
-      : `${window.location.origin}${import.meta.env.BASE_URL}card?cardId=${cardId}`;
+      : `${window.location.origin}${import.meta.env.BASE_URL}card/${cardId}`;
 
   const handleCopy = async () => {
     if (url) {
@@ -41,7 +41,7 @@ export function CardEditor() {
       ) : (
         <Space>
           <Button type="primary">
-            <Link to={`/card?cardId=${cardId}`}>Открыть открытку</Link>
+            <Link to={`/card/${cardId}`}>Открыть открытку</Link>
           </Button>
           <Button onClick={handleCopy}>Скопировать URL</Button>
         </Space>

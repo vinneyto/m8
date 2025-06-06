@@ -7,7 +7,7 @@ export default function App() {
     <BrowserRouter basename={import.meta.env.BASE_URL}>
       <Routes>
         <Route path="/" element={<CardEditorPage />} />
-        <Route path="/card" element={<CardScenePage />} />
+        <Route path="/card/:id" element={<CardScenePage />} />
       </Routes>
     </BrowserRouter>
   );
