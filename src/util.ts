@@ -1,4 +1,4 @@
-// @ts-expect-error
+// @ts-expect-error assign to window
 window.encodeBase64 = encodeBase64;
 
 export function decodeBase64(b64: string): string {
