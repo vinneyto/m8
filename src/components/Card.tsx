@@ -17,6 +17,7 @@ const INIT_ROT = [
 
 const SPHERE_CENTER = new Vector3(0, 0.2, 0);
 const SPHERE_RADIUS = 0.2;
+const FONT_URL = `${import.meta.env.BASE_URL}fonts/Caveat-VariableFont_wght.ttf`;
 
 export interface CardProps {
   text: string;
@@ -31,8 +32,29 @@ export function Card({ text }: CardProps) {
 
   const { camera } = useThree();
 
-  useEffect(() => {
-    if (open) {
+  const { posX, posY, posZ, rotX, rotY, rotZ, rotW, textOpacity } = useSpring({
+    posX: pos[0],
+    posY: pos[1],
+    posZ: pos[2],
+
+    rotX: rot[0],
+    rotY: rot[1],
+    rotZ: rot[2],
+    rotW: rot[3],
+
+    textOpacity: open ? 1 : 0,
+
+    config: { tension: 120, friction: 14 },
+  });
+
+  const handleClick = () => {
+    setOpen((wasOpen) => {
+      if (wasOpen) {
+        setPos([...INITIAL_POS]);
+        setRot([...INIT_ROT]);
+        return false;
+      }
+
       const matrix = new Matrix4().multiplyMatrices(
         camera.matrixWorld,
         new Matrix4().makeTranslation(0, 0, -0.25),
@@ -51,29 +73,8 @@ export function Card({ text }: CardProps) {
 
       setPos([position.x, position.y, position.z]);
       setRot([quaternion.x, quaternion.y, quaternion.z, quaternion.w]);
-    } else {
-      setPos(INITIAL_POS);
-      setRot(INIT_ROT);
-    }
-  }, [open, camera]);
-
-  const { posX, posY, posZ, rotX, rotY, rotZ, rotW, textOpacity } = useSpring({
-    posX: pos[0],
-    posY: pos[1],
-    posZ: pos[2],
-
-    rotX: rot[0],
-    rotY: rot[1],
-    rotZ: rot[2],
-    rotW: rot[3],
-
-    textOpacity: open ? 1 : 0,
-
-    config: { tension: 120, friction: 14 },
-  });
-
-  const handleClick = () => {
-    setOpen((o) => !o);
+      return true;
+    });
   };
 
   const textRef = useRef<Mesh>(null!);
@@ -100,7 +101,7 @@ export function Card({ text }: CardProps) {
         <meshBasicMaterial color="white" side={DoubleSide} />
         <AText
           ref={textRef}
-          font="/m8/fonts/Caveat-VariableFont_wght.ttf"
+          font={FONT_URL}
           position={[0, 0.05, 0.001]}
           fontSize={0.01}
           color="darkred"

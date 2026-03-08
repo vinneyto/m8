@@ -3,8 +3,8 @@ import {
   BadRequestException,
   NotFoundException,
 } from '@nestjs/common';
-import { Database } from 'bun:sqlite';
 import { randomUUID } from 'crypto';
+import { DatabaseSync } from 'node:sqlite';
 
 export interface Card {
   id: string;
@@ -13,11 +13,12 @@ export interface Card {
 
 @Injectable()
 export class CardsService {
-  private db: Database;
+  private db: DatabaseSync;
 
   constructor() {
-    this.db = new Database('cards.sqlite');
-    this.db.run(`CREATE TABLE IF NOT EXISTS cards (
+    const dbPath = process.env.CARDS_DB_PATH ?? 'cards.sqlite';
+    this.db = new DatabaseSync(dbPath);
+    this.db.exec(`CREATE TABLE IF NOT EXISTS cards (
       id TEXT PRIMARY KEY,
       text TEXT NOT NULL,
       created_at TEXT DEFAULT (datetime('now'))
@@ -25,25 +26,30 @@ export class CardsService {
   }
 
   create(text: string): Card {
-    const countStmt = this.db.query(
-      "SELECT COUNT(*) as count FROM cards WHERE strftime('%Y-%m', created_at) = strftime('%Y-%m', 'now')",
-    );
-    const count = (countStmt.get() as { count: number }).count;
-    if (count >= 1000) {
+    const count = this.db
+      .prepare(
+        "SELECT COUNT(*) as count FROM cards WHERE strftime('%Y-%m', created_at) = strftime('%Y-%m', 'now')",
+      )
+      .get() as { count: number };
+
+    if (count.count >= 1000) {
       throw new BadRequestException('Monthly limit reached');
     }
+
     const id = randomUUID();
-    this.db.run('INSERT INTO cards (id, text) VALUES (?, ?)', [id, text]);
+    this.db.prepare('INSERT INTO cards (id, text) VALUES (?, ?)').run(id, text);
     return { id, text };
   }
 
   findOne(id: string): Card {
     const row = this.db
-      .query('SELECT id, text FROM cards WHERE id = ?')
-      .get(id);
+      .prepare('SELECT id, text FROM cards WHERE id = ?')
+      .get(id) as Card | undefined;
+
     if (!row) {
       throw new NotFoundException('Card not found');
     }
-    return row as Card;
+
+    return row;
   }
 }
